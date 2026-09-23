@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #17261d; background: #f5f7f1; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: #f5f7f1; }
+button, input { font: inherit; }
+.display-face { font-family: Georgia, "Times New Roman", serif; }
+.grid-glow { background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 42px 42px; }
+.min-h-screen > main > div > section:first-child { background-color: #163f28 !important; color: #fff !important; box-shadow: 0 18px 45px rgba(22, 63, 40, .13); }
+.min-h-screen > main > div > section:first-child h1 { color: #fff !important; }
+.animate-rise { animation: rise .7s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; } }
