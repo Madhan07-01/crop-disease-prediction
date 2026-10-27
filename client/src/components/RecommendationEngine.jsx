@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import { AuthContext } from '../context/AuthContext';
 import {
   Lightbulb,
@@ -46,7 +47,7 @@ export default function RecommendationEngine({ defaultCrop = 'Tomato', defaultDi
   const fetchAdvisories = async (selectedCrop, selectedDisease) => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:4000/api/recommendations/advisories?crop=${selectedCrop}&disease=${selectedDisease}`);
+      const res = await axios.get(`${API_BASE_URL}/api/recommendations/advisories?crop=${selectedCrop}&disease=${selectedDisease}`);
       setAdvisoryData(res.data);
     } catch (err) {
       console.warn('Advisory fetch error:', err.message);
@@ -71,7 +72,7 @@ export default function RecommendationEngine({ defaultCrop = 'Tomato', defaultDi
     e.preventDefault();
     setCalculating(true);
     try {
-      const res = await axios.post('http://localhost:4000/api/recommendations/calculate-dosage', {
+      const res = await axios.post(`${API_BASE_URL}/api/recommendations/calculate-dosage`, {
         farmAcreage: calcInput.acreage,
         tankCapacityLiters: calcInput.tankSize,
         dilutionPerLiterGrams: calcInput.dosagePerLiter

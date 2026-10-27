@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../../config/api';
 import { Activity, ArrowUpRight, CheckCircle2, FileCheck2, Shield, UserCheck, UserRoundCheck, Users, X, AlertTriangle } from 'lucide-react';
 import WeatherWidget from '../../components/WeatherWidget';
 import RecommendationEngine from '../../components/RecommendationEngine';
@@ -23,9 +24,9 @@ export default function AdminDashboard({ roleView }) {
     try {
       setLoading(true);
       const [sumRes, repRes, offRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/operations/summary'),
-        axios.get('http://localhost:4000/api/operations/reports?roleView=admin'),
-        axios.get('http://localhost:4000/api/operations/officers')
+        axios.get(`${API_BASE_URL}/api/operations/summary`),
+        axios.get(`${API_BASE_URL}/api/operations/reports?roleView=admin`),
+        axios.get(`${API_BASE_URL}/api/operations/officers`)
       ]);
 
       setSummary(sumRes.data);
@@ -58,13 +59,13 @@ export default function AdminDashboard({ roleView }) {
     setSubmitting(true);
     try {
       const selectedOfficer = officers.find((o) => o._id === assignForm.officerId);
-      await axios.patch(`http://localhost:4000/api/operations/reports/${selectedReport._id}/assign`, {
+      await axios.patch(`${API_BASE_URL}/api/operations/reports/${selectedReport._id}/assign`, {
         officerId: assignForm.officerId,
         officerName: selectedOfficer?.fullName || 'Assigned Officer'
       });
 
       // Also update verification notes & severity
-      await axios.patch(`http://localhost:4000/api/operations/reports/${selectedReport._id}/verify`, {
+      await axios.patch(`${API_BASE_URL}/api/operations/reports/${selectedReport._id}/verify`, {
         severity: assignForm.severity,
         adminNotes: assignForm.adminNotes
       });

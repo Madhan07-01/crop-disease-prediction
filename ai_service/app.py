@@ -69,6 +69,12 @@ val_transforms = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
+# Initialize model upon startup
+try:
+    load_model()
+except Exception as _load_err:
+    print(f"Initial model loading notice: {_load_err}")
+
 @app.route('/predict', methods=['POST'])
 def predict():
     if model is None:
@@ -113,7 +119,5 @@ def health():
     return jsonify({'status': 'ready', 'device': str(device), 'classes': len(class_names)})
 
 if __name__ == '__main__':
-    # Load model on startup
-    load_model()
-    # Run the Flask app on port 5000 (which is where Node.js expects it)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)

@@ -1,0 +1,37 @@
+services:
+  # Node.js API Gateway Backend
+  - type: web
+    name: crop-disease-backend
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+      - key: FLASK_AI_URL
+        fromService:
+          type: web
+          name: crop-disease-ai
+          property: host
+
+  # Python Flask AI Inference Service
+  - type: web
+    name: crop-disease-ai
+    env: python
+    plan: free
+    rootDir: ai_service
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers=1 --threads=2 --timeout=120 app:app
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 5000

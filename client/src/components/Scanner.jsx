@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import {
   UploadCloud,
   Camera,
@@ -162,7 +163,7 @@ export default function Scanner({ onScanComplete }) {
     formData.append('notes', notes);
 
     try {
-      const res = await axios.post('http://localhost:4000/api/predict', formData, {
+      const res = await axios.post(`${API_BASE_URL}/api/predict`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setResult(res.data);

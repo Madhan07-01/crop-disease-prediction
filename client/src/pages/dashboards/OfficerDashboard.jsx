@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../../config/api';
 import { ArrowUpRight, CheckCircle2, ClipboardCheck, Clock, FileEdit, MapPin, Route, ShieldAlert, Sprout, Tag, Timer, UserCheck, X } from 'lucide-react';
 import WeatherWidget from '../../components/WeatherWidget';
 import RecommendationEngine from '../../components/RecommendationEngine';
@@ -23,7 +24,7 @@ export default function OfficerDashboard({ roleView }) {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:4000/api/operations/reports?roleView=officer');
+      const res = await axios.get(`${API_BASE_URL}/api/operations/reports?roleView=officer`);
       setReports(res.data.reports || []);
     } catch (err) {
       console.error('Failed to fetch officer reports:', err);
@@ -65,7 +66,7 @@ export default function OfficerDashboard({ roleView }) {
     if (!activeCase) return;
     setSubmitting(true);
     try {
-      await axios.patch(`http://localhost:4000/api/operations/reports/${activeCase._id}/action`, {
+      await axios.patch(`${API_BASE_URL}/api/operations/reports/${activeCase._id}/action`, {
         ...actionForm
       });
       setSuccessMsg('Field investigation and treatment recorded successfully!');

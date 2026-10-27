@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import { Cloud, CloudRain, CloudSun, Droplets, Gauge, MapPin, RefreshCw, ShieldAlert, Sun, Wind } from 'lucide-react';
 
 const DEFAULT_WEATHER = {
@@ -64,7 +65,7 @@ export default function WeatherWidget({ compact = false }) {
       else if (params.lat && params.lon) query += `&lat=${params.lat}&lon=${params.lon}`;
       else if (selectedDistrict) query += `&district=${selectedDistrict}`;
 
-      const res = await axios.get(`http://localhost:4000/api/weather?${query}`);
+      const res = await axios.get(`${API_BASE_URL}/api/weather?${query}`);
       if (res.data && res.data.current) {
         setWeather(res.data);
       }

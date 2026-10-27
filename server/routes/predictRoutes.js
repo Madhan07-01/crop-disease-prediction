@@ -35,7 +35,9 @@ router.post('/', authMiddleware, upload.single('image'), async (req, res, next) 
 
     let aiResponse;
     try {
-      aiResponse = await axios.post(process.env.FLASK_AI_URL || 'http://localhost:5000/predict', formData, {
+      const rawAiUrl = process.env.FLASK_AI_URL || 'http://localhost:5000/predict';
+      const targetAiUrl = rawAiUrl.endsWith('/predict') ? rawAiUrl : `${rawAiUrl.replace(/\/+$/, '')}/predict`;
+      aiResponse = await axios.post(targetAiUrl, formData, {
         headers: { ...formData.getHeaders() }
       });
     } catch (flaskErr) {

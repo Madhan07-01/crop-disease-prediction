@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../../config/api';
 import { ArrowUpRight, CheckCircle2, ChevronLeft, Clock, FileText, History, Leaf, MapPin, ScanLine, ShieldAlert, Sprout, Tag, UserCheck, X } from 'lucide-react';
 import Scanner from '../../components/Scanner';
 import WeatherWidget from '../../components/WeatherWidget';
@@ -15,7 +16,7 @@ export default function FarmerDashboard() {
   const fetchHistory = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:4000/api/history');
+      const res = await axios.get(`${API_BASE_URL}/api/history`);
       setHistory(res.data.predictions || []);
     } catch (error) {
       console.error('Failed to fetch farmer history:', error);
