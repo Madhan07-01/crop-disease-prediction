@@ -18,7 +18,9 @@ CLASS_NAMES_PATH = os.path.join(BASE_DIR, 'class_names.json')
 IMG_SIZE = 224
 
 # --- Global Variables ---
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")  # Force CPU for minimal memory footprint on Render free tier
+torch.set_num_threads(1)
+torch.set_grad_enabled(False)
 model = None
 class_names = []
 
